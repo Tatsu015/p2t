@@ -1,4 +1,3 @@
-import sys
 import tkinter
 
 root = tkinter.Tk()
