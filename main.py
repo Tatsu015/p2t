@@ -1,56 +1,48 @@
-import time
 import tkinter
 import tkinter as tk
-from tkinter import ttk
-
 from snipper import Snipper
 from translator import Translator
 from p2t import P2T
 from p2t_thread import P2TThread
 
-root = tkinter.Tk()
-root.title("p2e")
-
+# define globals
 s = Snipper()
 t = Translator()
 p = P2T(s, t)
 p2t = P2TThread(p)
 
+root = tkinter.Tk()
+root.title("p2e")
+root.attributes("-topmost", True)
 
-def start() -> None:
-    p2t.start()
-    start_button["state"] = "disable"
+# define callback functions
+def on_start() -> None:
+    p2t.exec()
+    start_button["state"] = "disabled"
     stop_button["state"] = "normal"
-    print("start")
 
 
-def stop() -> None:
-    print("stop")
+def on_stop() -> None:
     p2t.pause()
     start_button["state"] = "normal"
-    stop_button["state"] = "disable"
+    stop_button["state"] = "disabled"
 
 
-def exit():
+def on_exit():
     print("exit")
     p2t.exit()
     print("close window")
     root.destroy()
 
 
-# # create window
-frame = ttk.Frame(root)
-frame.pack()
+# define callback settings
+start_button = tk.Button(root, text="Start", state="normal", command=on_start)
+start_button.pack(side=tk.LEFT)
 
+stop_button = tk.Button(root, text="Stop", state="disabled", command=on_stop)
+stop_button.pack(side=tk.RIGHT)
 
-start_button = tk.Button(frame, text="Start", state="normal", command=start)
-start_button.pack()
+root.protocol("WM_DELETE_WINDOW", on_exit)
 
-stop_button = tk.Button(frame, text="Stop", state="disable", command=stop)
-stop_button.pack()
-
-root.protocol("WM_DELETE_WINDOW", exit)
-root.attributes("-topmost", True)
-
-
+# start application
 root.mainloop()

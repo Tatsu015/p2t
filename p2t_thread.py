@@ -15,20 +15,20 @@ class P2TThread:
         self.thread = Thread(target=self.__run)
         self.thread.start()
 
-    def start(self) -> None:
-        print("thread start")
+    def exec(self) -> None:
+        print("exec")
         event.set()
         self.__is_pause = False
 
     def pause(self) -> None:
-        print("thread pause")
+        print("pause")
         self.__is_pause = True
         # need set because __run wait blocking not work
         event.set()
         self.__clear_clipboard()
 
     def exit(self) -> None:
-        print("thread exit")
+        print("exit")
         self.__is_alive = False
         self.pause()
         self.thread.join()
