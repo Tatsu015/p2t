@@ -1,34 +1,19 @@
-from select import select
 from snipper import Snipper
 from translator import Translator
-import pyperclip
-import threading
 
 
 class P2T:
     def __init__(self, snipper: Snipper, translator: Translator) -> None:
-        self.snipper = snipper
-        self.translator = translator
+        self.__snipper = snipper
+        self.__translator = translator
 
-    def __del__(self):
-        self.stop()
-
-    def start(self) -> None:
-        thread = threading.Thread(target=self.__run)
-        thread.start()
-
-    def stop(self) -> None:
-        pyperclip.copy("")
-
-    def __run(self) -> None:
+    def run(self) -> str:
         try:
-            self.snipper.clear()
-            img = self.snipper.wait_for_snip()
+            img = self.__snipper.snip()
         except:
-            print("exit waiting")
-            return
+            return ""
 
-        text = self.translator.translate(img)
-        print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>")
+        text = self.__translator.translate(img)
+        print("--- capture ---")
         print(text)
-        print("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<")
+        return text
