@@ -6,13 +6,16 @@ class Snipper:
     def __init__(self) -> None:
         pass
 
-    def snip(self) -> Image:
+    def wait_for_snip(self) -> Image:
+        print("Wait for snipping...")
+        
         pyperclip.waitForNewPaste()
+        print('copied!')
         img = ImageGrab.grabclipboard()
         if isinstance(img, Image.Image):
-            print(img.size)
-            print(img.mode)
             return img
 
-        else:
-            raise Exception
+        raise Exception
+
+    def clear(self)->None:
+        pyperclip.copy("")
