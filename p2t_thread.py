@@ -9,47 +9,38 @@ event = Event()
 
 class P2TThread:
     def __init__(self, p2t: P2T) -> None:
-        self.__is_pause = True
         self.__is_alive = True
+        self.__is_pause = True
         self.__p2t = p2t
         self.thread = Thread(target=self.__run)
         self.thread.start()
 
     def exec(self) -> None:
-        print("exec")
-        event.set()
+        print("start exec")
         self.__is_pause = False
 
     def pause(self) -> None:
-        print("pause")
+        print("start pause")
         self.__is_pause = True
-        # need set because __run wait blocking not work
-        event.set()
-        self.__clear_clipboard()
 
     def exit(self) -> None:
-        print("exit")
+        print("start exit")
+        self.__is_pause = True
         self.__is_alive = False
-        self.pause()
         self.thread.join()
 
     def __run(self) -> None:
         while self.__is_alive:
-            # stay here until start called
-            event.wait()
+            event.wait(0.5)
             event.clear()
 
-            # start called, repeat capturing until stop called
-            while True:
-                if self.__is_pause is True:
-                    break
+            if self.__is_pause:
+                continue
 
-                # stay here until clipboard copy occured
-                pyperclip.waitForNewPaste()
-                text = self.__p2t.run()
-                pyperclip.copy(text)
+            text = self.__p2t.run()
+            if text is'':
+                continue
+
+            pyperclip.copy(text)
 
         print("end p2t thread running")
-
-    def __clear_clipboard(self) -> None:
-        pyperclip.copy("")
