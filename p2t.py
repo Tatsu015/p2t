@@ -1,3 +1,4 @@
+import re
 from snipper import Snipper
 from translator import Translator
 
@@ -14,6 +15,8 @@ class P2T:
             return ""
 
         text = self.__translator.translate(img)
+        no_space = text.replace(' ','').replace('　','')
+        oneline =  re.sub(r'(\r?\n)|(\r\n?)', '', no_space)
         print("--- capture ---")
-        print(text)
-        return text
+        print(oneline)
+        return oneline
