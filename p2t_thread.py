@@ -38,7 +38,7 @@ class P2TThread:
                 continue
 
             text = self.__p2t.run()
-            if text is'':
+            if text is "":
                 continue
 
             pyperclip.copy(text)

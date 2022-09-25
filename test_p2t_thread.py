@@ -8,11 +8,12 @@ from p2t_thread import P2TThread
 import time
 import pyperclip
 
+
 class TestP2TThread(unittest.TestCase):
     def setUp(self):
-        print('=================================')
+        print("=================================")
         print("In method", self._testMethodName)
-        print('---------------------------------')
+        print("---------------------------------")
 
     def test_start_end(self):
         s = Snipper()
@@ -63,7 +64,6 @@ class TestP2TThread(unittest.TestCase):
         p2t.exit()
 
         self.assertEqual(True, True)
-
 
     # capture
     def test_start_capture_capture_end(self):
@@ -143,6 +143,7 @@ class TestP2TThread(unittest.TestCase):
         p2t.exit()
 
         self.assertEqual(True, True)
+
 
 if __name__ == "__main__":
     unittest.main()
